@@ -1,6 +1,7 @@
 import filtros from './filtros.json';
 import styles from './Filtros.module.scss';
 import classNames from 'classnames';
+import { memo } from 'react';
 
 type IOpcao = typeof filtros[0];
 
@@ -9,7 +10,7 @@ interface Iprops {
   setFiltros: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-export default function Filtros({ filtro, setFiltros }: Iprops) {
+function Filtros({ filtro, setFiltros }: Iprops) {
   function selecionarFiltros(opcao: IOpcao) {
     if (opcao.id === filtro) return setFiltros(null);
     return setFiltros(opcao.id);
@@ -34,3 +35,5 @@ export default function Filtros({ filtro, setFiltros }: Iprops) {
     </div>
   );
 }
+
+export default memo(Filtros);

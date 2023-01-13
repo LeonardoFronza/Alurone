@@ -1,23 +1,41 @@
 import Cardapio from 'data/cardapio.json';
 import styles from './Inicio.module.scss';
+import stylesTema from 'styles/Tema.module.scss';
+import nossaCasa from 'assets/nossa_casa.png';
+import { useNavigate } from 'react-router-dom';
+import { Prato } from 'types/Pratos';
 
 export default function Inicio() {
   let pratosRecomendados = [...Cardapio];
   pratosRecomendados = pratosRecomendados
     .sort(() => 0.5 - Math.random())
     .splice(0, 3);
+
+  const navegate = useNavigate();
+
+  function redirecionarParaDetalhes(prato : Prato) {
+    navegate(`/prato/${prato.id}`,{state: {prato}, replace:true});
+  }
+
   return (
     <section>
-      <h3 className={styles.titulo}>Recomendação da cozinha</h3>
+      <h3 className={stylesTema.titulo}>Recomendação da cozinha</h3>
       <div className={styles.recomendados}>
         {pratosRecomendados.map((item) => (
           <div key={item.id} className={styles.recomendado}>
             <div className={styles.recomendado__imagem}>
               <img src={item.photo} alt={item.title} />
             </div>
-            <button className={styles.recomendado__botao}> ver mais</button>
+            <button className={styles.recomendado__botao} onClick={() => redirecionarParaDetalhes(item)}> ver mais</button>
           </div>
         ))}
+      </div>
+      <h3 className={stylesTema.titulo}>Nossa casa</h3>
+      <div className={styles.nossaCasa}>
+        <img src={nossaCasa} alt="Casa do Aluroni" />
+        <div className={styles.nossaCasa__endereco}>
+          Casa das massas,123 <br /><br /> Vila dos Toco - SP
+        </div>
       </div>
     </section>
   );

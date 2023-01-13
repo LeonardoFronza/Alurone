@@ -1,12 +1,14 @@
 import styles from './Buscador.module.scss';
 import { CgSearch } from 'react-icons/cg';
+import { memo,useMemo } from 'react';
 
 interface Iprops {
   busca: string;
   setBusca: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function Buscador({ busca, setBusca }: Iprops) {
+function Buscador({ busca, setBusca }: Iprops) {
+  const elemento = useMemo(() => <CgSearch size={20} color="#4C4D5E"/>,[]);
   return (
     <div className={styles.buscador}>
       <input
@@ -15,7 +17,9 @@ export default function Buscador({ busca, setBusca }: Iprops) {
         onChange={(evento) => setBusca(evento.target.value)}
         placeholder="Buscar"
       />
-      <CgSearch size={20} color="#4C4D5E"/>
+      {elemento}
     </div>
   );
 }
+
+export default memo(Buscador);

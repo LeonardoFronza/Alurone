@@ -3,13 +3,14 @@ import opcoes from './opcoes.json';
 import { useState } from 'react';
 import classNames from 'classnames';
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from 'react-icons/md';
+import { memo } from 'react';
 
 interface Iprops {
   ordenador: string;
   setOrdenador: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function Ordenador({ ordenador, setOrdenador }: Iprops) {
+function Ordenador({ ordenador, setOrdenador }: Iprops) {
   const [aberto, setAberto] = useState(false);
   const nomeOrdenador =
     ordenador && opcoes.find((opcoes) => opcoes.value === ordenador)?.nome;
@@ -47,3 +48,5 @@ export default function Ordenador({ ordenador, setOrdenador }: Iprops) {
     </button>
   );
 }
+
+export default memo(Ordenador);

@@ -1,13 +1,16 @@
 import styles from './Item.module.scss';
-import cardapio from 'data/cardapio.json';
-import classNames from 'classnames';
+import { Prato } from 'types/Pratos';
+import TagsPratos from 'components/TagsPratos';
+import { useNavigate } from 'react-router-dom';
+import { memo } from 'react';
 
-type Iprops = typeof cardapio[0];
+type Iprops = Prato;
 
-export default function Item(props : Iprops) {
-  const {title, description, price,category,serving,size, photo} = props;
+function Item(props : Iprops) {
+  const {id,title, description, photo} = props;
+  const navegate = useNavigate();
   return (
-    <div className={styles.item}>
+    <div className={styles.item} onClick={() =>navegate(`/prato/${id}`)}>
       <div className={styles.item__imagem}>
         <img src={photo} alt={title} />
       </div>
@@ -18,19 +21,10 @@ export default function Item(props : Iprops) {
           <p>{description}</p>
         </div>
 
-        <div className={styles.item__tags}>
-          <div className={classNames({
-            [styles.item__tipo] : true,
-            [styles[`item__tipo__${category.label.toLocaleLowerCase()}`]] : true
-          })}>{category.label}</div>
-
-          <div className={styles.item__porcao}>{size}g</div>
-
-          <div className={styles.item__qtdpessoas}>Serve {serving} pessoas.</div>
-
-          <div className={styles.item__valor}>R${price.toFixed(2)}</div>
-        </div>
+        <TagsPratos {...props}/>
       </div>
     </div>
   );
 }
+//Desta forma o react só renderiza os item de uma vez, fazendo que com que tenha mais perfomace
+export default memo(Item);
